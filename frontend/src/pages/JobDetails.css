@@ -1,52 +1,20 @@
 
+/* =========================================
+   JOB DETAILS PAGE
+========================================= */
+
 .job-detail-page {
   min-height: 100vh;
   background: #f7f8fc;
   color: #182230;
-}
-
-.detail-header {
-  height: 76px;
-  padding: 0 7%;
-  background: #fff;
-  border-bottom: 1px solid #e8ebf1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.detail-brand {
-  font-size: 24px;
-  font-weight: 800;
-  color: #172554;
-  text-decoration: none;
-}
-
-.detail-brand span {
-  color: #2563eb;
-}
-
-.detail-header nav {
-  display: flex;
-  gap: 28px;
-}
-
-.detail-header nav a,
-.detail-back {
-  color: #526078;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.detail-header nav a:hover,
-.detail-back:hover {
-  color: #2563eb;
+  width: 100%;
 }
 
 .detail-container {
+  width: 100%;
   max-width: 1180px;
   padding: 36px 24px 70px;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .detail-back {
@@ -54,7 +22,19 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 25px;
+  color: #526078;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
 }
+
+.detail-back:hover {
+  color: #2563eb;
+}
+
+/* =========================================
+   JOB HERO
+========================================= */
 
 .detail-hero {
   background: #fff;
@@ -65,6 +45,7 @@
   align-items: center;
   gap: 24px;
   margin-bottom: 26px;
+  min-width: 0;
 }
 
 .detail-company-logo,
@@ -91,20 +72,27 @@
   object-fit: contain;
 }
 
+.detail-title-area {
+  min-width: 0;
+}
+
 .detail-title-area h1 {
   font-size: clamp(25px, 4vw, 36px);
   line-height: 1.2;
   margin: 8px 0;
   color: #172554;
+  overflow-wrap: anywhere;
 }
 
 .detail-company-name {
   color: #64748b;
   font-weight: 600;
   margin: 0 0 15px;
+  overflow-wrap: anywhere;
 }
 
 .detail-featured {
+  display: inline-block;
   background: #fff4df;
   color: #9a5b00;
   border-radius: 20px;
@@ -128,6 +116,15 @@
   font-size: 14px;
 }
 
+.detail-quick-meta span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   MAIN CONTENT LAYOUT
+========================================= */
+
 .detail-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 330px;
@@ -139,6 +136,12 @@
 .detail-sidebar {
   display: grid;
   gap: 20px;
+  min-width: 0;
+}
+
+.detail-sidebar {
+  position: sticky;
+  top: 20px;
 }
 
 .detail-card {
@@ -146,6 +149,8 @@
   border: 1px solid #e8ebf1;
   border-radius: 16px;
   padding: 26px;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .detail-card h2 {
@@ -153,6 +158,10 @@
   font-size: 19px;
   margin: 0 0 22px;
 }
+
+/* =========================================
+   JOB OVERVIEW
+========================================= */
 
 .detail-overview-grid {
   display: grid;
@@ -162,9 +171,10 @@
 
 .detail-overview-grid div {
   display: grid;
-  grid-template-columns: 25px 1fr;
+  grid-template-columns: 25px minmax(0, 1fr);
   gap: 5px 10px;
   align-items: center;
+  min-width: 0;
 }
 
 .detail-overview-grid svg {
@@ -182,6 +192,10 @@
   font-size: 14px;
   overflow-wrap: anywhere;
 }
+
+/* =========================================
+   DESCRIPTION AND SKILLS
+========================================= */
 
 .detail-description {
   color: #526078;
@@ -204,17 +218,25 @@
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .detail-muted {
   color: #8290a5;
+  font-size: 14px;
+  line-height: 1.6;
 }
+
+/* =========================================
+   COMPANY INFORMATION
+========================================= */
 
 .company-heading {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 18px;
+  min-width: 0;
 }
 
 .company-small-logo {
@@ -231,11 +253,17 @@
   color: #64748b;
   font-size: 14px;
   line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
 .company-info {
   display: flex;
   margin: 14px 0;
+  overflow-wrap: anywhere;
+}
+
+.company-info svg {
+  flex-shrink: 0;
 }
 
 .company-website {
@@ -250,6 +278,10 @@
   overflow-wrap: anywhere;
 }
 
+.company-website:hover {
+  color: #1d4ed8;
+}
+
 .company-website-icon {
   display: flex;
   align-items: center;
@@ -258,131 +290,29 @@
   font-size: 12px;
 }
 
+/* =========================================
+   JOB INFORMATION
+========================================= */
+
 .detail-information {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 9px;
 }
 
 .detail-information strong {
   font-size: 14px;
   margin-bottom: 9px;
+  overflow-wrap: anywhere;
 }
 
-.detail-register-link {
-  display: block;
-  background: #2563eb;
-  color: #fff;
-  text-align: center;
-  padding: 15px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-.detail-register-link:hover {
-  background: #1d4ed8;
-}
-
-.detail-state {
-  min-height: 75vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 25px;
-  text-align: center;
-  color: #64748b;
-}
-
-.detail-state h2 {
-  color: #172554;
-  margin: 0;
-}
-
-.detail-state-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.detail-state-actions button,
-.detail-state-actions a {
-  border: 0;
-  border-radius: 8px;
-  background: #2563eb;
-  color: white;
-  padding: 12px 18px;
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.detail-loader {
-  width: 36px;
-  height: 36px;
-  border: 4px solid #dbeafe;
-  border-top-color: #2563eb;
-  border-radius: 50%;
-  animation: detail-spin 0.8s linear infinite;
-}
-
-@keyframes detail-spin {
-  to { transform: rotate(360deg); }
-}
-
-@media (max-width: 800px) {
-  .detail-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .detail-header {
-    padding: 0 20px;
-  }
-}
-
-@media (max-width: 560px) {
-  .detail-header {
-    height: auto;
-    min-height: 70px;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding: 15px 20px;
-  }
-
-  .detail-header nav {
-    gap: 15px;
-    font-size: 13px;
-  }
-
-  .detail-container {
-    padding: 25px 14px 45px;
-  }
-
-  .detail-hero {
-    padding: 22px;
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .detail-card {
-    padding: 21px;
-  }
-
-  .detail-overview-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .detail-quick-meta {
-    gap: 10px;
-    flex-direction: column;
-  }
-}
-
-/* Application workflow */
+/* =========================================
+   APPLY BUTTON
+========================================= */
 
 .detail-apply-button {
   width: 100%;
+  min-height: 50px;
   border: none;
   border-radius: 10px;
   background: #2563eb;
@@ -407,6 +337,10 @@
   cursor: not-allowed;
 }
 
+/* =========================================
+   APPLICATION SUCCESS AND ERROR
+========================================= */
+
 .application-success,
 .application-error {
   display: flex;
@@ -415,6 +349,7 @@
   padding: 17px 20px;
   border-radius: 12px;
   margin-bottom: 22px;
+  min-width: 0;
 }
 
 .application-success {
@@ -423,9 +358,15 @@
   border: 1px solid #bbf7d0;
 }
 
+.application-success > svg,
+.application-error > svg {
+  flex-shrink: 0;
+}
+
 .application-success p {
   margin: 5px 0;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .application-success a {
@@ -442,6 +383,7 @@
 
 .application-error span {
   flex: 1;
+  overflow-wrap: anywhere;
 }
 
 .application-error button,
@@ -450,7 +392,12 @@
   border: none;
   cursor: pointer;
   color: inherit;
+  flex-shrink: 0;
 }
+
+/* =========================================
+   APPLICATION FORM
+========================================= */
 
 .application-form-card {
   background: #fff;
@@ -459,12 +406,14 @@
   padding: 26px;
   margin-bottom: 25px;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  min-width: 0;
 }
 
 .application-form-heading {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 15px;
   margin-bottom: 22px;
 }
 
@@ -478,6 +427,7 @@
   color: #64748b;
   margin: 0;
   font-size: 14px;
+  line-height: 1.6;
 }
 
 .application-form-card label {
@@ -489,13 +439,16 @@
 }
 
 .application-form-card textarea {
+  display: block;
   width: 100%;
+  min-height: 140px;
   box-sizing: border-box;
   resize: vertical;
   border: 1px solid #cbd5e1;
   border-radius: 10px;
   padding: 14px;
   font: inherit;
+  font-size: 14px;
   color: #172554;
   outline: none;
 }
@@ -527,8 +480,13 @@
   font-weight: 700;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   cursor: pointer;
+}
+
+.application-form-footer button:hover:not(:disabled) {
+  background: #1d4ed8;
 }
 
 .application-form-footer button:disabled {
@@ -536,7 +494,153 @@
   cursor: wait;
 }
 
-@media (max-width: 560px) {
+/* =========================================
+   LOADING AND ERROR STATES
+========================================= */
+
+.detail-state {
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 25px;
+  text-align: center;
+  color: #64748b;
+}
+
+.detail-state h2 {
+  color: #172554;
+  margin: 0;
+}
+
+.detail-state p {
+  max-width: 500px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.detail-state-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.detail-state-actions button,
+.detail-state-actions a {
+  border: 0;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.detail-state-actions button:hover,
+.detail-state-actions a:hover {
+  background: #1d4ed8;
+}
+
+.detail-loader {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #dbeafe;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: detail-spin 0.8s linear infinite;
+}
+
+@keyframes detail-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   TABLET RESPONSIVENESS
+========================================= */
+
+@media (max-width: 900px) {
+  .detail-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .detail-sidebar {
+    position: static;
+  }
+
+  .detail-container {
+    max-width: 760px;
+  }
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS
+========================================= */
+
+@media (max-width: 600px) {
+  .detail-container {
+    padding: 24px 15px 45px;
+  }
+
+  .detail-back {
+    margin-bottom: 18px;
+  }
+
+  .detail-hero {
+    padding: 22px;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 17px;
+    border-radius: 14px;
+  }
+
+  .detail-company-logo {
+    width: 68px;
+    height: 68px;
+  }
+
+  .detail-title-area {
+    width: 100%;
+  }
+
+  .detail-title-area h1 {
+    font-size: 26px;
+  }
+
+  .detail-quick-meta {
+    gap: 11px;
+    flex-direction: column;
+  }
+
+  .detail-layout {
+    gap: 17px;
+  }
+
+  .detail-main,
+  .detail-sidebar {
+    gap: 16px;
+  }
+
+  .detail-card {
+    padding: 21px;
+    border-radius: 13px;
+  }
+
+  .detail-card h2 {
+    font-size: 18px;
+    margin-bottom: 18px;
+  }
+
+  .detail-overview-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
   .application-form-card {
     padding: 19px;
   }
@@ -547,6 +651,46 @@
   }
 
   .application-form-footer button {
-    justify-content: center;
+    width: 100%;
+  }
+
+  .application-success,
+  .application-error {
+    padding: 15px;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 380px) {
+  .detail-container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .detail-hero {
+    padding: 18px;
+  }
+
+  .detail-card {
+    padding: 17px;
+  }
+
+  .detail-title-area h1 {
+    font-size: 23px;
+  }
+
+  .detail-quick-meta span {
+    font-size: 13px;
+  }
+
+  .detail-apply-button {
+    font-size: 15px;
+  }
+
+  .application-form-heading h2 {
+    font-size: 18px;
   }
 }

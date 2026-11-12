@@ -8,6 +8,8 @@ import {
   Briefcase,
   Clock,
   IndianRupee,
+  Building2,
+  ArrowRight,
 } from "lucide-react";
 
 import { searchJobs } from "../api/jobsApi";
@@ -17,15 +19,19 @@ function Jobs() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [jobs, setJobs] = useState([]);
+
   const [keyword, setKeyword] = useState(
     searchParams.get("search") || ""
   );
+
   const [location, setLocation] = useState(
     searchParams.get("location") || ""
   );
+
   const [jobType, setJobType] = useState(
     searchParams.get("job_type") || ""
   );
+
   const [workMode, setWorkMode] = useState(
     searchParams.get("work_mode") || ""
   );
@@ -33,7 +39,6 @@ function Jobs() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Fetch jobs whenever URL search filters change.
   useEffect(() => {
     const filters = {
       keyword: searchParams.get("search") || "",
@@ -66,7 +71,7 @@ function Jobs() {
 
         const results = Array.isArray(data)
           ? data
-          : data.items || data.results || data.jobs || [];
+          : data?.items || data?.results || data?.jobs || [];
 
         setJobs(results);
       } catch (err) {
@@ -92,32 +97,19 @@ function Jobs() {
     };
   }, [searchParams]);
 
-  // Submit search and update URL.
   const handleSearch = (event) => {
     event.preventDefault();
 
     const params = {};
 
-    if (keyword.trim()) {
-      params.search = keyword.trim();
-    }
-
-    if (location.trim()) {
-      params.location = location.trim();
-    }
-
-    if (jobType) {
-      params.job_type = jobType;
-    }
-
-    if (workMode) {
-      params.work_mode = workMode;
-    }
+    if (keyword.trim()) params.search = keyword.trim();
+    if (location.trim()) params.location = location.trim();
+    if (jobType) params.job_type = jobType;
+    if (workMode) params.work_mode = workMode;
 
     setSearchParams(params);
   };
 
-  // Clear all filters.
   const clearFilters = () => {
     setKeyword("");
     setLocation("");
@@ -126,7 +118,6 @@ function Jobs() {
     setSearchParams({});
   };
 
-  // Retry loading jobs without losing current filters.
   const handleRetry = () => {
     setSearchParams({
       ...Object.fromEntries(searchParams),
@@ -134,88 +125,104 @@ function Jobs() {
     });
   };
 
+  const formatLabel = (value) =>
+    value
+      ? value.replaceAll("_", " ").replace(/\b\w/g, (char) =>
+          char.toUpperCase()
+        )
+      : "Not specified";
+
   return (
     <main className="jobs-page">
-      <header className="jobs-header">
-        <Link to="/" className="jobs-logo">
-          CareerConnect
-        </Link>
-
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/jobs">Browse Jobs</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </nav>
-      </header>
-
       <section className="jobs-hero">
-        <p className="jobs-eyebrow">YOUR CAREER STARTS HERE</p>
+        <div className="jobs-hero-content">
+          <p className="jobs-eyebrow">
+            YOUR CAREER STARTS HERE
+          </p>
 
-        <h1>Find a job you'll love.</h1>
+          <h1>
+            Find a job you'll <span>love.</span>
+          </h1>
 
-        <p>
-          Discover opportunities and take the next step
-          in your career.
-        </p>
+          <p className="jobs-hero-description">
+            Discover opportunities, connect with companies,
+            and take the next step in your career.
+          </p>
 
-        <form className="jobs-search" onSubmit={handleSearch}>
-          <label>
-            <Search size={18} />
-
-            <input
-              type="text"
-              placeholder="Job title or keyword"
-              value={keyword}
-              onChange={(event) =>
-                setKeyword(event.target.value)
-              }
-            />
-          </label>
-
-          <label>
-            <MapPin size={18} />
-
-            <input
-              type="text"
-              placeholder="City or location"
-              value={location}
-              onChange={(event) =>
-                setLocation(event.target.value)
-              }
-            />
-          </label>
-
-          <select
-            value={jobType}
-            onChange={(event) =>
-              setJobType(event.target.value)
-            }
+          <form
+            className="jobs-search"
+            onSubmit={handleSearch}
           >
-            <option value="">All job types</option>
-            <option value="full_time">Full time</option>
-            <option value="part_time">Part time</option>
-            <option value="internship">Internship</option>
-            <option value="contract">Contract</option>
-          </select>
+            <label className="jobs-search-field">
+              <Search size={19} />
 
-          <select
-            value={workMode}
-            onChange={(event) =>
-              setWorkMode(event.target.value)
-            }
-          >
-            <option value="">All work modes</option>
-            <option value="onsite">On-site</option>
-            <option value="remote">Remote</option>
-            <option value="hybrid">Hybrid</option>
-          </select>
+              <input
+                type="search"
+                placeholder="Job title or keyword"
+                value={keyword}
+                onChange={(event) =>
+                  setKeyword(event.target.value)
+                }
+                aria-label="Job title or keyword"
+              />
+            </label>
 
-          <button type="submit">
-            <Search size={17} />
-            Search jobs
-          </button>
-        </form>
+            <label className="jobs-search-field">
+              <MapPin size={19} />
+
+              <input
+                type="text"
+                placeholder="City or location"
+                value={location}
+                onChange={(event) =>
+                  setLocation(event.target.value)
+                }
+                aria-label="City or location"
+              />
+            </label>
+
+            <label className="jobs-select-field">
+              <span className="sr-only">Job type</span>
+
+              <select
+                value={jobType}
+                onChange={(event) =>
+                  setJobType(event.target.value)
+                }
+              >
+                <option value="">All job types</option>
+                <option value="full_time">Full time</option>
+                <option value="part_time">Part time</option>
+                <option value="internship">Internship</option>
+                <option value="contract">Contract</option>
+              </select>
+            </label>
+
+            <label className="jobs-select-field">
+              <span className="sr-only">Work mode</span>
+
+              <select
+                value={workMode}
+                onChange={(event) =>
+                  setWorkMode(event.target.value)
+                }
+              >
+                <option value="">All work modes</option>
+                <option value="onsite">On-site</option>
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+            </label>
+
+            <button
+              type="submit"
+              className="jobs-search-button"
+            >
+              <Search size={18} />
+              Search jobs
+            </button>
+          </form>
+        </div>
       </section>
 
       <section className="jobs-content">
@@ -223,39 +230,66 @@ function Jobs() {
           <div>
             <p className="jobs-eyebrow">OPPORTUNITIES</p>
             <h2>Latest jobs</h2>
+            <p className="jobs-subheading">
+              Explore opportunities that match your skills.
+            </p>
           </div>
 
-          <span>{jobs.length} jobs found</span>
+          <span className="jobs-count">
+            {jobs.length} jobs found
+          </span>
         </div>
 
         {(keyword || location || jobType || workMode) && (
           <div className="active-filters">
             <span>Active search filters</span>
 
-            <button type="button" onClick={clearFilters}>
+            <button
+              type="button"
+              onClick={clearFilters}
+            >
               Clear all
             </button>
           </div>
         )}
 
         {loading && (
-          <p className="jobs-message">Loading jobs...</p>
+          <div className="jobs-message" role="status">
+            Loading jobs...
+          </div>
         )}
 
         {error && (
-          <div className="error-message">
+          <div className="error-message" role="alert">
             <p>{error}</p>
 
-            <button type="button" onClick={handleRetry}>
-              Retry
+            <button
+              type="button"
+              onClick={handleRetry}
+            >
+              Try again
             </button>
           </div>
         )}
 
         {!loading && !error && jobs.length === 0 && (
-          <p className="jobs-message">
-            No jobs found. Try changing your search filters.
-          </p>
+          <div className="jobs-empty-state">
+            <Search size={35} />
+
+            <h3>No jobs found</h3>
+
+            <p>
+              Try changing your search filters to find
+              more opportunities.
+            </p>
+
+            <button
+              type="button"
+              onClick={clearFilters}
+            >
+              Clear filters
+            </button>
+          </div>
         )}
 
         <div className="jobs-grid">
@@ -265,10 +299,12 @@ function Jobs() {
               <article className="job-card" key={job.id}>
                 <div className="job-card-top">
                   <div className="job-company-icon">
-                    <Briefcase size={22} />
+                    <Building2 size={23} />
                   </div>
 
-                  <span className="job-status">Hiring</span>
+                  <span className="job-status">
+                    Hiring
+                  </span>
                 </div>
 
                 <h3>{job.title}</h3>
@@ -287,15 +323,12 @@ function Jobs() {
 
                   <span>
                     <Briefcase size={15} />
-                    {(job.job_type || "").replaceAll("_", " ")}
+                    {formatLabel(job.job_type)}
                   </span>
 
                   <span>
                     <Clock size={15} />
-                    {(job.experience_level || "").replaceAll(
-                      "_",
-                      " "
-                    )}
+                    {formatLabel(job.experience_level)}
                   </span>
                 </div>
 
@@ -312,11 +345,11 @@ function Jobs() {
 
                 <div className="job-card-footer">
                   <span>
-                    {job.work_mode || "Work mode not specified"}
+                    {formatLabel(job.work_mode)}
                   </span>
 
                   <Link to={`/jobs/${job.id}`}>
-                    View details →
+                    View details <ArrowRight size={16} />
                   </Link>
                 </div>
               </article>

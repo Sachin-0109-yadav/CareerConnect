@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+
 import {
   ArrowLeft,
   MapPin,
@@ -34,7 +35,11 @@ function formatLabel(value) {
 function formatDate(value) {
   if (!value) return "Not specified";
 
-  return new Date(value).toLocaleDateString("en-IN", {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "Not specified";
+
+  return date.toLocaleDateString("en-IN", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -44,7 +49,7 @@ function formatDate(value) {
 function JobDetails() {
   const { jobId } = useParams();
   const navigate = useNavigate();
-  const { user, isAuthenticated, isCandidate } = useAuth();
+  const { isAuthenticated, isCandidate } = useAuth();
 
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -56,28 +61,45 @@ function JobDetails() {
   const [applyError, setApplyError] = useState("");
   const [applySuccess, setApplySuccess] = useState(false);
 
-  const loadJob = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const data = await getJobDetails(jobId);
-      setJob(data);
-    } catch (err) {
-      console.error("Job details error:", err);
-
-      setError(
-        err.response?.data?.detail ||
-        "Unable to load this job. It may no longer be available."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    let cancelled = false;
+
+    const loadJob = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const data = await getJobDetails(jobId);
+
+        if (!cancelled) {
+          setJob(data);
+        }
+      } catch (err) {
+        if (cancelled) return;
+
+        console.error("Job details error:", err);
+
+        setError(
+          err.response?.data?.detail ||
+            "Unable to load this job. It may no longer be available."
+        );
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
     loadJob();
+
+    return () => {
+      cancelled = true;
+    };
   }, [jobId]);
+
+  const handleRetry = () => {
+    navigate(0);
+  };
 
   const handleApplyClick = () => {
     if (!isAuthenticated) {
@@ -119,13 +141,17 @@ function JobDetails() {
         setApplyError("You have already applied for this job.");
       } else if (err.response?.status === 400) {
         setApplyError(
-          message || "Please complete your candidate profile before applying."
+          message ||
+            "Please complete your candidate profile before applying."
         );
       } else if (err.response?.status === 401) {
-        setApplyError("Your session has expired. Please log in again.");
+        setApplyError(
+          "Your session has expired. Please log in again."
+        );
       } else {
         setApplyError(
-          message || "Unable to submit your application. Please try again."
+          message ||
+            "Unable to submit your application. Please try again."
         );
       }
     } finally {
@@ -135,7 +161,7 @@ function JobDetails() {
 
   if (loading) {
     return (
-      <main className="detail-state">
+      <main className="detail-state" role="status">
         <div className="detail-loader" />
         <p>Loading job details...</p>
       </main>
@@ -146,10 +172,16 @@ function JobDetails() {
     return (
       <main className="detail-state">
         <AlertCircle size={42} />
+
         <h2>Job unavailable</h2>
+
         <p>{error || "This job could not be found."}</p>
+
         <div className="detail-state-actions">
-          <button onClick={loadJob}>Try again</button>
+          <button type="button" onClick={handleRetry}>
+            Try again
+          </button>
+
           <Link to="/jobs">Browse jobs</Link>
         </div>
       </main>
@@ -160,28 +192,19 @@ function JobDetails() {
 
   const salary =
     job.min_salary != null || job.max_salary != null
-      ? `${job.min_salary != null ? Number(job.min_salary).toLocaleString("en-IN") : "Not specified"} - ${job.max_salary != null ? Number(job.max_salary).toLocaleString("en-IN") : "Not specified"} ${job.currency || "INR"}`
+      ? `${
+          job.min_salary != null
+            ? Number(job.min_salary).toLocaleString("en-IN")
+            : "Not specified"
+        } - ${
+          job.max_salary != null
+            ? Number(job.max_salary).toLocaleString("en-IN")
+            : "Not specified"
+        } ${job.currency || "INR"}`
       : "Salary not disclosed";
 
   return (
     <main className="job-detail-page">
-      <header className="detail-header">
-        <Link to="/" className="detail-brand">
-          Career<span>Connect</span>
-        </Link>
-
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/jobs">Browse Jobs</Link>
-
-          {isAuthenticated ? (
-            <span>{user?.email}</span>
-          ) : (
-            <Link to="/login">Login</Link>
-          )}
-        </nav>
-      </header>
-
       <div className="detail-container">
         <Link to="/jobs" className="detail-back">
           <ArrowLeft size={17} />
@@ -202,7 +225,9 @@ function JobDetails() {
 
           <div className="detail-title-area">
             {job.is_featured && (
-              <span className="detail-featured">Featured opportunity</span>
+              <span className="detail-featured">
+                Featured opportunity
+              </span>
             )}
 
             <h1>{job.title}</h1>
@@ -212,28 +237,50 @@ function JobDetails() {
             </p>
 
             <div className="detail-quick-meta">
-              <span><MapPin size={16} /> {job.location || "Location not specified"}</span>
-              <span><Briefcase size={16} /> {formatLabel(job.job_type)}</span>
-              <span><Clock size={16} /> {formatLabel(job.experience_level)}</span>
+              <span>
+                <MapPin size={16} />
+                {job.location || "Location not specified"}
+              </span>
+
+              <span>
+                <Briefcase size={16} />
+                {formatLabel(job.job_type)}
+              </span>
+
+              <span>
+                <Clock size={16} />
+                {formatLabel(job.experience_level)}
+              </span>
             </div>
           </div>
         </section>
 
         {applySuccess && (
-          <div className="application-success">
+          <div className="application-success" role="status">
             <CheckCircle2 size={22} />
+
             <div>
-              <strong>Application submitted successfully!</strong>
-              <p>Your application has been sent to the recruiter.</p>
-              <Link to="/candidate/applications">View my applications</Link>
+              <strong>
+                Application submitted successfully!
+              </strong>
+
+              <p>
+                Your application has been sent to the recruiter.
+              </p>
+
+              <Link to="/candidate/applications">
+                View my applications
+              </Link>
             </div>
           </div>
         )}
 
         {applyError && (
-          <div className="application-error">
+          <div className="application-error" role="alert">
             <AlertCircle size={20} />
+
             <span>{applyError}</span>
+
             <button
               type="button"
               onClick={() => setApplyError("")}
@@ -249,7 +296,10 @@ function JobDetails() {
             <div className="application-form-heading">
               <div>
                 <h2>Apply for this position</h2>
-                <p>{job.title} at {company.name || "Company"}</p>
+
+                <p>
+                  {job.title} at {company.name || "Company"}
+                </p>
               </div>
 
               <button
@@ -262,23 +312,32 @@ function JobDetails() {
             </div>
 
             <form onSubmit={handleApplicationSubmit}>
-              <label htmlFor="coverLetter">Cover letter (optional)</label>
+              <label htmlFor="coverLetter">
+                Cover letter (optional)
+              </label>
 
               <textarea
                 id="coverLetter"
-                rows="6"
-                maxLength="10000"
+                rows={6}
+                maxLength={10000}
                 value={coverLetter}
-                onChange={(event) => setCoverLetter(event.target.value)}
+                onChange={(event) =>
+                  setCoverLetter(event.target.value)
+                }
                 placeholder="Introduce yourself and explain why you are interested in this role..."
               />
 
               <div className="application-form-footer">
-                <span>{coverLetter.length}/10000 characters</span>
+                <span>
+                  {coverLetter.length}/10000 characters
+                </span>
 
                 <button type="submit" disabled={applying}>
                   <Send size={17} />
-                  {applying ? "Submitting..." : "Submit application"}
+
+                  {applying
+                    ? "Submitting..."
+                    : "Submit application"}
                 </button>
               </div>
             </form>
@@ -306,7 +365,7 @@ function JobDetails() {
                 <div>
                   <Users size={20} />
                   <span>Openings</span>
-                  <strong>{job.openings}</strong>
+                  <strong>{job.openings ?? "Not specified"}</strong>
                 </div>
 
                 <div>
@@ -319,20 +378,29 @@ function JobDetails() {
 
             <section className="detail-card">
               <h2>About this role</h2>
-              <p className="detail-description">{job.description}</p>
+
+              <p className="detail-description">
+                {job.description || "No job description provided."}
+              </p>
             </section>
 
             {job.responsibilities && (
               <section className="detail-card">
                 <h2>Responsibilities</h2>
-                <p className="detail-description">{job.responsibilities}</p>
+
+                <p className="detail-description">
+                  {job.responsibilities}
+                </p>
               </section>
             )}
 
             {job.requirements && (
               <section className="detail-card">
                 <h2>Requirements</h2>
-                <p className="detail-description">{job.requirements}</p>
+
+                <p className="detail-description">
+                  {job.requirements}
+                </p>
               </section>
             )}
 
@@ -365,6 +433,7 @@ function JobDetails() {
                     <Building2 size={24} />
                   )}
                 </div>
+
                 <strong>{company.name || "Company"}</strong>
               </div>
 
@@ -396,21 +465,22 @@ function JobDetails() {
               )}
 
               {company.website && (
-                <a
-                  className="company-website"
-                  href={company.website}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Visit company website
-                  <ExternalLink size={15} />
-                </a>
-              )}
+                <>
+                  <a
+                    className="company-website"
+                    href={company.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Visit company website
+                    <ExternalLink size={15} />
+                  </a>
 
-              {company.website && (
-                <p className="company-website-icon">
-                  <Globe size={15} /> Official website
-                </p>
+                  <p className="company-website-icon">
+                    <Globe size={15} />
+                    Official website
+                  </p>
+                </>
               )}
             </section>
 
@@ -422,7 +492,9 @@ function JobDetails() {
                 <strong>{formatLabel(job.job_type)}</strong>
 
                 <span>Experience</span>
-                <strong>{formatLabel(job.experience_level)}</strong>
+                <strong>
+                  {formatLabel(job.experience_level)}
+                </strong>
 
                 <span>Work arrangement</span>
                 <strong>{formatLabel(job.work_mode)}</strong>
@@ -433,7 +505,11 @@ function JobDetails() {
             </section>
 
             {applySuccess ? (
-              <button className="detail-apply-button" disabled>
+              <button
+                type="button"
+                className="detail-apply-button"
+                disabled
+              >
                 <CheckCircle2 size={18} />
                 Application submitted
               </button>
