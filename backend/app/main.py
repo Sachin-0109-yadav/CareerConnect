@@ -10,6 +10,7 @@ from app.api.v1.endpoints.jobs import router as jobs_router
 from app.api.v1.endpoints.applications import router as applications_router
 from app.api.v1.endpoints.catalog import router as catalog_router
 from app.api.v1.endpoints.admin import router as admin_router
+from app.core.config import settings
 
 
 app = FastAPI(
@@ -24,12 +25,12 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://localhost:5174",
+        settings.FRONTEND_URL.rstrip("/"),
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 # API Routers
 
