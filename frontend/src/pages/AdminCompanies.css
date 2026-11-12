@@ -1,0 +1,331 @@
+
+.admin-companies-page {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f7f8fc;
+  color: #172033;
+}
+
+.admin-companies-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.admin-company-eyebrow {
+  color: #6366f1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+}
+
+.admin-companies-header h1 {
+  margin: 8px 0;
+  font-size: 30px;
+}
+
+.admin-companies-header p,
+.admin-company-table-heading p {
+  margin: 0;
+  color: #718096;
+}
+
+.admin-company-refresh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border: 1px solid #dfe4ed;
+  border-radius: 9px;
+  background: white;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.admin-company-refresh:disabled {
+  opacity: 0.6;
+}
+
+.admin-company-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.admin-company-stat {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 21px;
+  background: white;
+  border: 1px solid #e8ebf2;
+  border-radius: 12px;
+}
+
+.admin-company-stat svg {
+  width: 23px;
+  color: #6366f1;
+}
+
+.admin-company-stat span {
+  display: block;
+  color: #718096;
+  font-size: 13px;
+}
+
+.admin-company-stat strong {
+  display: block;
+  margin-top: 5px;
+  font-size: 24px;
+}
+
+.admin-company-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.admin-company-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  border: 1px solid #dfe4ed;
+  border-radius: 9px;
+  background: white;
+}
+
+.admin-company-search svg {
+  color: #8490a3;
+}
+
+.admin-company-search input {
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  outline: none;
+}
+
+.admin-company-toolbar select {
+  min-width: 210px;
+  padding: 12px;
+  border: 1px solid #dfe4ed;
+  border-radius: 9px;
+  background: white;
+}
+
+.admin-company-table-card {
+  overflow: hidden;
+  border: 1px solid #e8ebf2;
+  border-radius: 13px;
+  background: white;
+}
+
+.admin-company-table-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 21px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.admin-company-table-heading h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+}
+
+.admin-company-table-heading > span {
+  color: #6366f1;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.admin-company-table-scroll {
+  overflow-x: auto;
+}
+
+.admin-company-table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+}
+
+.admin-company-table th {
+  padding: 15px;
+  background: #fafbfe;
+  color: #718096;
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.admin-company-table td {
+  padding: 16px 15px;
+  border-top: 1px solid #edf0f5;
+  font-size: 13px;
+}
+
+.admin-company-identity {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.admin-company-avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #eef0ff;
+  color: #5558d9;
+  font-weight: 800;
+}
+
+.admin-company-identity strong,
+.admin-company-identity small {
+  display: block;
+}
+
+.admin-company-identity small {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #8490a3;
+  margin-top: 4px;
+}
+
+.admin-company-table td a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #5558d9;
+  text-decoration: none;
+}
+
+.admin-company-status {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.admin-company-status.pending {
+  background: #fff5df;
+  color: #a66b0a;
+}
+
+.admin-company-status.verified {
+  background: #e7f8ee;
+  color: #16834a;
+}
+
+.admin-company-status.rejected {
+  background: #fff0ec;
+  color: #bd4c36;
+}
+
+.admin-company-status.unknown {
+  background: #edf0f5;
+  color: #64748b;
+}
+
+.admin-company-actions {
+  display: flex;
+  gap: 7px;
+}
+
+.admin-company-actions button {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-company-verify {
+  color: #16834a;
+  background: #e7f8ee;
+}
+
+.admin-company-reject {
+  color: #bd4c36;
+  background: #fff0ec;
+}
+
+.admin-company-actions button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.admin-company-empty {
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: #718096;
+}
+
+.admin-company-empty h3,
+.admin-company-empty p {
+  margin: 0;
+}
+
+.admin-company-error {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 18px;
+  padding: 13px 16px;
+  color: #b42318;
+  background: #fff0ee;
+  border-radius: 9px;
+}
+
+.admin-company-spin {
+  animation: admin-company-rotate 1s linear infinite;
+}
+
+@keyframes admin-company-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 850px) {
+  .admin-company-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-companies-page {
+    padding: 18px;
+  }
+
+  .admin-companies-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-company-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-company-toolbar {
+    flex-direction: column;
+  }
+
+  .admin-company-toolbar select {
+    width: 100%;
+  }
+}

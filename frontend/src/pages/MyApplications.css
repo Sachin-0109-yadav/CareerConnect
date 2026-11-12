@@ -1,0 +1,197 @@
+
+.my-applications-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  min-height: 70vh;
+}
+
+.applications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.applications-header h1 {
+  font-size: 32px;
+  margin: 0 0 8px;
+  color: var(--text-primary, #172033);
+}
+
+.applications-header p {
+  margin: 0;
+  color: var(--text-secondary, #64748b);
+}
+
+.refresh-applications {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border: 1px solid #dbe2ea;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+}
+
+.applications-list {
+  display: grid;
+  gap: 18px;
+}
+
+.application-card {
+  padding: 24px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+}
+
+.application-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.application-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.application-status {
+  padding: 7px 12px;
+  border-radius: 20px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.status-shortlisted,
+.status-offered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-interview {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-under_review {
+  background: #f3e8ff;
+  color: #6b21a8;
+}
+
+.application-card h2 {
+  margin: 0 0 7px;
+  color: #172033;
+  font-size: 21px;
+}
+
+.application-card h3 {
+  margin: 0 0 18px;
+  color: #475569;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.application-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.application-meta span,
+.application-card-footer span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.application-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #e5e7eb;
+  margin-top: 20px;
+  padding-top: 16px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.application-card-footer a,
+.browse-jobs-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.applications-message,
+.empty-applications {
+  text-align: center;
+  padding: 65px 20px;
+  color: #64748b;
+}
+
+.empty-applications h2 {
+  color: #172033;
+}
+
+.browse-jobs-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 11px 18px;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+}
+
+.applications-error {
+  padding: 14px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+@media (max-width: 600px) {
+  .my-applications-page {
+    padding: 30px 16px;
+  }
+
+  .applications-header {
+    align-items: flex-start;
+  }
+
+  .applications-header h1 {
+    font-size: 25px;
+  }
+
+  .application-card {
+    padding: 18px;
+  }
+
+  .application-card-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
