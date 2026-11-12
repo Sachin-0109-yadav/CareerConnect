@@ -1,5 +1,6 @@
 
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Search,
   BriefcaseBusiness,
@@ -12,11 +13,9 @@ import {
   BarChart3,
   Megaphone,
   Headphones,
-  MapPin,
   Sparkles,
 } from "lucide-react";
 
-import { useAuth } from "../context/AuthContext";
 import "./Home.css";
 
 const categories = [
@@ -35,60 +34,29 @@ const stats = [
 ];
 
 function Home() {
-  const { user, logout } = useAuth();
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+
+    const query = search.trim();
+
+    if (query) {
+      navigate(`/jobs?search=${encodeURIComponent(query)}`);
+    } else {
+      navigate("/jobs");
+    }
+  };
 
   return (
     <div className="home-page">
-      <nav className="home-navbar">
-        <Link to="/" className="brand">
-          <span className="brand-icon">
-            <BriefcaseBusiness size={23} />
-          </span>
-          CareerConnect
-        </Link>
-
-        <div className="nav-links">
-          <Link to="/">Home</Link>
-          <Link to="/jobs">Find Jobs</Link>
-
-          {user?.role === "candidate" && (
-            <Link to="/candidate/profile">My Profile</Link>
-          )}
-
-          {user?.role === "recruiter" && (
-            <Link to="/recruiter/profile">Recruiter Profile</Link>
-          )}
-        </div>
-
-        <div className="nav-actions">
-          {user ? (
-            <>
-              <span className="welcome-user">
-                {user.email}
-              </span>
-              <button className="nav-login" onClick={logout}>
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="nav-login">
-                Login
-              </Link>
-              <Link to="/register" className="nav-register">
-                Get Started
-              </Link>
-            </>
-          )}
-        </div>
-      </nav>
-
       <main>
         <section className="hero-section">
           <div className="hero-content">
             <div className="hero-badge">
               <Sparkles size={15} />
-              Your career journey starts here
+              <span>Your career journey starts here</span>
             </div>
 
             <h1>
@@ -102,22 +70,21 @@ function Home() {
               and discover a career you'll love.
             </p>
 
-            <div className="hero-search">
+            <form className="hero-search" onSubmit={handleSearch}>
               <Search size={21} />
+
               <input
-                type="text"
+                type="search"
+                value={search}
+                onChange={(event) => setSearch(event.target.value)}
                 placeholder="Search jobs, skills or companies..."
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    window.location.href =
-                      `/jobs?search=${encodeURIComponent(event.target.value)}`;
-                  }
-                }}
+                aria-label="Search jobs, skills or companies"
               />
-              <Link to="/jobs" className="search-button">
+
+              <button type="submit" className="search-button">
                 Search Jobs
-              </Link>
-            </div>
+              </button>
+            </form>
 
             <p className="popular-searches">
               Popular: Software Developer · Python · Data Analyst ·
@@ -130,16 +97,21 @@ function Home() {
               <div className="visual-icon">
                 <BriefcaseBusiness size={27} />
               </div>
+
               <h3>Your next opportunity awaits</h3>
+
               <p>Discover roles that match your skills.</p>
+
               <div className="visual-progress">
                 <span />
               </div>
+
               <small>Explore opportunities</small>
             </div>
 
             <div className="floating-card floating-top">
               <Users size={19} />
+
               <div>
                 <strong>50K+</strong>
                 <small>Job seekers</small>
@@ -148,6 +120,7 @@ function Home() {
 
             <div className="floating-card floating-bottom">
               <Sparkles size={19} />
+
               <div>
                 <strong>New opportunities</strong>
                 <small>Every day</small>
@@ -163,6 +136,7 @@ function Home() {
             return (
               <div className="stat-card" key={stat.label}>
                 <Icon size={27} />
+
                 <div>
                   <h2>{stat.number}</h2>
                   <p>{stat.label}</p>
@@ -175,8 +149,12 @@ function Home() {
         <section className="categories-section">
           <div className="section-heading">
             <div>
-              <span className="section-eyebrow">EXPLORE OPPORTUNITIES</span>
+              <span className="section-eyebrow">
+                EXPLORE OPPORTUNITIES
+              </span>
+
               <h2>Browse by category</h2>
+
               <p>Find the right opportunity in your field.</p>
             </div>
 
@@ -200,9 +178,13 @@ function Home() {
                   </div>
 
                   <h3>{category.name}</h3>
+
                   <p>{category.jobs} opportunities</p>
 
-                  <ArrowRight className="category-arrow" size={18} />
+                  <ArrowRight
+                    className="category-arrow"
+                    size={18}
+                  />
                 </Link>
               );
             })}
@@ -211,8 +193,12 @@ function Home() {
 
         <section className="cta-section">
           <div>
-            <span className="section-eyebrow">TAKE THE NEXT STEP</span>
+            <span className="section-eyebrow">
+              TAKE THE NEXT STEP
+            </span>
+
             <h2>Ready to find your next opportunity?</h2>
+
             <p>
               Create your account and start exploring opportunities
               that match your ambitions.
@@ -230,14 +216,15 @@ function Home() {
           <span className="brand-icon">
             <BriefcaseBusiness size={20} />
           </span>
+
           CareerConnect
         </Link>
 
-        <p>
-          Connecting talent with opportunity.
-        </p>
+        <p>Connecting talent with opportunity.</p>
 
-        <span>© {new Date().getFullYear()} CareerConnect.</span>
+        <span>
+          © {new Date().getFullYear()} CareerConnect.
+        </span>
       </footer>
     </div>
   );

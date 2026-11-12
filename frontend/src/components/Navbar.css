@@ -1,11 +1,12 @@
 
 .navbar {
+  width: 100%;
   min-height: 70px;
   padding: 12px 5%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
+  gap: 16px;
   background: #fff;
   border-bottom: 1px solid #e5e7eb;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -20,14 +21,20 @@
   color: #2563eb;
   text-decoration: none;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .navbar-links,
 .navbar-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.navbar-links {
+  flex: 1;
+  min-width: 0;
+  justify-content: center;
 }
 
 .navbar-links a,
@@ -36,6 +43,7 @@
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .navbar-links a:hover,
@@ -47,6 +55,10 @@
 .navbar-user {
   font-size: 13px;
   color: #374151;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .navbar-register,
@@ -59,25 +71,72 @@
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {
   .navbar {
     flex-wrap: wrap;
+    gap: 12px;
   }
 
   .navbar-links {
     order: 3;
-    width: 100%;
+    flex: 0 0 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 8px 0;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .navbar-actions {
+    margin-left: auto;
   }
 }
 
 @media (max-width: 500px) {
-  .navbar-user {
-    display: none;
+  .navbar {
+    padding: 12px 4%;
+    gap: 8px;
+  }
+
+  .navbar-brand {
+    font-size: 19px;
   }
 
   .navbar-links {
-    gap: 10px;
+    gap: 18px;
+  }
+
+  .navbar-links a,
+  .navbar-login {
+    font-size: 13px;
+  }
+
+  .navbar-actions {
+    gap: 9px;
+  }
+
+  .navbar-register,
+  .navbar-logout {
+    padding: 8px 11px;
+    font-size: 12px;
+  }
+
+  .navbar-user {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar-brand {
+    font-size: 17px;
+  }
+
+  .navbar-register,
+  .navbar-logout {
+    padding: 7px 9px;
   }
 }
