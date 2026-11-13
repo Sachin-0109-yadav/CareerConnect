@@ -1,6 +1,3 @@
-import pypandoc, os
-
-readme = r"""# CareerConnect
 
 A full-stack job portal that connects job seekers and recruiters through a single platform. CareerConnect provides account registration, authentication, role-based experiences, job discovery, job posting, and application workflows.
 
