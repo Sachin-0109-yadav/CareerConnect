@@ -199,10 +199,3 @@ Potential areas for further development include:
 - GitHub: https://github.com/Sachin-0109-yadav
 - LinkedIn: https://linkedin.com/in/sachin-31y08
 
----
-
-If you find this project useful, consider giving the repository a ⭐ on GitHub.
-"""
-out = "/mnt/data/README.md"
-pypandoc.convert_text(readme, "md", format="md", outputfile=out, extra_args=["--standalone"])
-print(f"Created: {out}")
